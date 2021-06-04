@@ -24,12 +24,13 @@ public class OrderItems implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="id_Sequence")
 	@SequenceGenerator(name="id_Sequence", schema="Public", sequenceName="\"Seq_Order_Items\"", allocationSize=1)
 	@Column(name="\"Id\"", unique=true, nullable=false) 
 	private Long id;
 	
+	@Id
 	@Column(name="\"Order_Items_Id\"")
 	private Long ordersItemsId;
 	
@@ -43,14 +44,13 @@ public class OrderItems implements Serializable{
 	private Double price;
 	
 	@Column(name="\"Order_Id\"")
-	private Long orderId; 
+	private Long order_Id; 
 	
 	//Order Items ---> Orders
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "\"Order_Id\"",insertable=false, updatable=false)
 	private Orders orders;
-//	@OneToOne(mappedBy="orderItems")
-//	private Orders orders;
+
 	
 	
 	

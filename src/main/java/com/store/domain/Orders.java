@@ -32,14 +32,15 @@ public class Orders implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="id_Sequence")
 	@SequenceGenerator(name="id_Sequence", schema="Public", sequenceName="\"Seq_Orders\"", allocationSize=1)
 	@Column(name="\"Id\"", unique=true, nullable=false) 
 	private Long id;
 	
-//	@Column(name="\"Order_Id\"")
-//	private Long orderId;
+	@Id
+	@Column(name="\"Order_Id\"")
+	private Long orderId;
 	
 	@Column(name="\"Order_Status\"")
 	private String orderStatus;
@@ -47,25 +48,26 @@ public class Orders implements Serializable{
 	@Column(name="\"Order_Date\"")
 	private Date orderDate;
 	
-	@Column(name="\"Store_Id\"")
-	private Long storeId; 
+	//Changed to Character varying store
+//	@Column(name="\"Store\"")
+//	private String store; 
 	
-//	@Column(name="\"Customer_Id\"")
-//	private Long customerId; 
+	@Column(name="\"Customer_Id\"")
+	private Long customerId; 
 	
 	//Orders --> Customers Relationship
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "\"Customer_Id\"", nullable = false)
-	private Customers customerId;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "\"Customer_Id\"", nullable = false)
+//	private Customers customer_Id;
 	
 	//Orders(PK: Order_Id) --> Order Items(FK: Order_Id)
-//	@OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "\"Order_Id\"",insertable=false, updatable=false)
-//	private OrderItems orderItems;
-	
+	@OneToMany( mappedBy="orders",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<OrderItems> orderItemsList = Lists.newArrayList();
+
 	//Orders(PK: Store_Id) --> Store(FK: Store_Id)
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "\"Store_Id\"",insertable=false, updatable=false)
+    @JoinColumn(name = "\"Store_Name\"",insertable=false, updatable=false)
 	private Stores stores;
 	
 }

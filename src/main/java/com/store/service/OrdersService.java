@@ -41,13 +41,13 @@ public class OrdersService {
 			OrdersDTO ordersDTO = new OrdersDTO();
 			try {
 				ordersDTO.setId(orders.getId());
-//				ordersDTO.setOrderId(orders.getOrderId());
+				ordersDTO.setOrderId(orders.getOrderId());
 				ordersDTO.setOrderStatus(orders.getOrderStatus());
 				ordersDTO.setOrderDate(orders.getOrderDate());
-				ordersDTO.setStoreId(toStoresDTO.apply(orders.getStores()));
-//				ordersDTO.setCustomerId(orders.getCustomerId());
+				ordersDTO.setStore(toStoresDTO.apply(orders.getStores()));
+				ordersDTO.setCustomerId(orders.getCustomerId());
 //				ordersDTO.setOrderItems(toOrderItemsDTO.apply(orders.getOrderItems()));
-//				ordersDTO.setOrderItems(orders.getOrderItems().stream().map(toOrderItemsDTO).collect(Collectors.toList()));
+				ordersDTO.setOrderItems(orders.getOrderItemsList().stream().map(toOrderItemsDTO).collect(Collectors.toList()));
 						 
 			}catch(Exception e) {
 				log.error("function error toOrderDTO()", e);
@@ -69,9 +69,10 @@ public class OrdersService {
 			if(orderItems != null) {
 				orderItemsDTO.setId(orderItems.getId());
 				orderItemsDTO.setOrdersItemsId(orderItems.getOrdersItemsId());
+				orderItemsDTO.setItem(orderItems.getItem());
 				orderItemsDTO.setQuantity(orderItems.getQuantity());
 				orderItemsDTO.setPrice(orderItems.getPrice());
-				orderItemsDTO.setOrder_Id(orderItems.getOrderId());
+				orderItemsDTO.setOrderId(orderItems.getOrder_Id());
 			}
 			return orderItemsDTO;
 		}
@@ -90,7 +91,6 @@ public class OrdersService {
 			StoresDTO storesDTO = new StoresDTO();
 			if(stores != null) {
 				storesDTO.setId(stores.getId());
-				storesDTO.setStoreId(stores.getStoreId());
 				storesDTO.setStoreName(stores.getStoreName());
 				storesDTO.setPhone(stores.getPhone());
 				storesDTO.setEmail(stores.getEmail());

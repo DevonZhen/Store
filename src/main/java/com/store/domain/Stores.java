@@ -21,15 +21,16 @@ import lombok.Data;
 public class Stores implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="id_Sequence")
 	@SequenceGenerator(name="id_Sequence", schema="Public", sequenceName="\"Seq_Stores\"", allocationSize=1)
 	@Column(name="\"Id\"", unique=true, nullable=false) 
 	private Long id;
 
-	@Column(name="\"Store_Id\"")
-	private Long storeId;
-
+//	@Column(name="\"Store_Id\"")
+//	private Long storeId;
+	
+	@Id
 	@Column(name="\"Store_Name\"")
 	private String storeName;
 

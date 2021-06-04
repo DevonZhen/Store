@@ -20,8 +20,8 @@ public class OrdersDTO {
 	@JsonDeserialize(using = CustomDateDeserializer.class)     // java.util.Date object with JSON format
 	@JsonSerialize(using   = CustomDateSerializer.class)
 	private Date orderDate;
-	private StoresDTO storeId;  // 1 - 1 Stores
+	private StoresDTO store;  // 1 - 1 Stores
 	private Long customerId; 
 	//---------------------------------//
-	private OrderItemsDTO orderItems;  //1 - 1 Order Items
+	private List<OrderItemsDTO> orderItems;  //1 - Many Order Items
 }

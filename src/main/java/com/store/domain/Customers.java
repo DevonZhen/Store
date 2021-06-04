@@ -28,12 +28,13 @@ public class Customers implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
+	
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="id_Sequence")
 	@SequenceGenerator(name="id_Sequence", schema="Public", sequenceName="\"Seq_Customers\"", allocationSize=1)
 	@Column(name="\"Id\"", unique=true, nullable=false)         
 	private Long id;  
 	
+	@Id //Primary temp?
 	@Column(name="\"Customer_Id\"")
 	private Long customerId;
 	

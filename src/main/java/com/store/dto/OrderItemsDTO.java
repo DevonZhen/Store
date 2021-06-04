@@ -7,5 +7,5 @@ public class OrderItemsDTO {
 	private String item;
 	private Long quantity;
 	private Double price;
-	private Long Order_Id; 
+	private Long orderId; 
 }

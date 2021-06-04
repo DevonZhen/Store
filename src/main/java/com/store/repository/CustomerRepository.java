@@ -12,7 +12,8 @@ public interface CustomerRepository extends BaseRepository<Customers, Long> {
 	
 	public List<Customers> findAll();
 	
-	
-//	@Query("SELECT c FROM Character c JOIN FETCH c.bags b WHERE c.id = ?1")
+		
+	@Query("SELECT c FROM Customers c WHERE c.customerId = ?1")
+	public Customers findCustomerId(Long customerId);
 
 }
