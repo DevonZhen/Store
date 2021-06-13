@@ -18,6 +18,6 @@ public interface OrdersRepository extends BaseRepository<Orders, Long>{
 	public Optional<Orders> findByOrderId(Long id);
 	
 	//Delete Query, remember to change SELECT
-	@Query("SELECT o FROM FROM Orders o WHERE o.customerId = ?1")
-	public Optional<Orders> deleteByCustomerId(Long id);
+//	@Query("SELECT o FROM FROM Orders o WHERE o.customerId = ?1")
+//	public Optional<Orders> deleteByCustomerId(Long id);
 }

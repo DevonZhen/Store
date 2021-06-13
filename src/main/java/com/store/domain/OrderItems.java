@@ -32,7 +32,7 @@ public class OrderItems implements Serializable{
 	
 	@Id
 	@Column(name="\"Order_Items_Id\"")
-	private Long ordersItemsId;
+	private Long orderItemsId;
 	
 	@Column(name="\"Item\"")
 	private String item;

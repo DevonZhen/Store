@@ -52,77 +52,77 @@ public class CustomerController {
 	}	
 	
 	//Insert Customer
-	@PostMapping(value=RESTUrls.URL_PostCustomer, produces="application/json")
-	public CustomersDTO insertCustomer(@RequestBody CustomersDTO customersDTO) {
-		System.out.println("Inserting Customer...");
-		System.out.println("CustomerDTO => "+customersDTO);
-//		CustomersDTO responseDTO=null;
-		return null;
-	}
+//	@PostMapping(value=RESTUrls.URL_PostCustomer, produces="application/json")
+//	public CustomersDTO insertCustomer(@RequestBody CustomersDTO customersDTO) {
+//		System.out.println("Inserting Customer...");
+//		System.out.println("CustomerDTO => "+customersDTO);
+////		CustomersDTO responseDTO=null;
+//		return null;
+//	}
 	
 	//Insert Order
-	@PostMapping(value=RESTUrls.URL_PostOrder, produces="application/json")
-	public OrdersDTO insertOrder(@RequestBody OrdersDTO ordersDTO) {
-		System.out.println("Inserting Order...");
-		System.out.println("OrderDTO => "+ordersDTO);
-//		OrdersDTO  responseDTO=null;
-		return null;
-	}
+//	@PostMapping(value=RESTUrls.URL_PostOrder, produces="application/json")
+//	public OrdersDTO insertOrder(@RequestBody OrdersDTO ordersDTO) {
+//		System.out.println("Inserting Order...");
+//		System.out.println("OrderDTO => "+ordersDTO);
+////		OrdersDTO  responseDTO=null;
+//		return null;
+//	}
 	
 	
 	//Update Customer
-	@PostMapping(value = RESTUrls.URL_PostCustomer, produces = "application/json")
-	public CustomersDTO updateCustomer(@RequestBody CustomersDTO customersDTO) {
-		System.out.println("Updating Customer...");
-		System.out.println("CustomersDTO ==> "+customersDTO);
-//		try {
-//			customerService.customerUpdate();
-//		}catch(Exception e) {
-//			log.error("Error calling updateCustomer()", e);
-//		}
-		return null;
-	}
+//	@PostMapping(value = RESTUrls.URL_PostCustomer, produces = "application/json")
+//	public CustomersDTO updateCustomer(@RequestBody CustomersDTO customersDTO) {
+//		System.out.println("Updating Customer...");
+//		System.out.println("CustomersDTO ==> "+customersDTO);
+////		try {
+////			customerService.customerUpdate();
+////		}catch(Exception e) {
+////			log.error("Error calling updateCustomer()", e);
+////		}
+//		return null;
+//	}
 	
 	//Update Order
-	@PostMapping(value = RESTUrls.URL_PostOrder, produces = "application/json")
-	public OrdersDTO updateOrder(@RequestBody OrdersDTO ordersDTO) {
-		System.out.println("Updating Order...");
-		System.out.println("OrdersDTO ==> "+ordersDTO);
-//		try {
-//			customerService.orderUpdate();
-//		}catch(Exception e) {
-//			log.error("Error calling updateOrder()", e);
-//		}
-		return null;
-	}
+//	@PostMapping(value = RESTUrls.URL_PostOrder, produces = "application/json")
+//	public OrdersDTO updateOrder(@RequestBody OrdersDTO ordersDTO) {
+//		System.out.println("Updating Order...");
+//		System.out.println("OrdersDTO ==> "+ordersDTO);
+////		try {
+////			customerService.orderUpdate();
+////		}catch(Exception e) {
+////			log.error("Error calling updateOrder()", e);
+////		}
+//		return null;
+//	}
 	
 	
 	
 	
 	//Delete Customer
-	@DeleteMapping(value = RESTUrls.URL_DeleteCustomer, produces = "application/json")
-	public void deleteCustomer(@PathVariable String id) {
-		System.out.println("Deleting Customer... ");
-		System.out.println("Customer Id => "+id);
-//		try {
-//			Long cid = Long.parseLong(id);
-//			customerService.deleteCustomer(cid);
-//		} catch (Exception e) {
-//		     log.error("Error calling deleteCustomer()", e);
-//		}
-	}
+//	@DeleteMapping(value = RESTUrls.URL_DeleteCustomer, produces = "application/json")
+//	public void deleteCustomer(@PathVariable String id) {
+//		System.out.println("Deleting Customer... ");
+//		System.out.println("Customer Id => "+id);
+////		try {
+////			Long cid = Long.parseLong(id);
+////			customerService.deleteCustomer(cid);
+////		} catch (Exception e) {
+////		     log.error("Error calling deleteCustomer()", e);
+////		}
+//	}
 	
 	
 	//Delete Order
-	@DeleteMapping(value = RESTUrls.URL_DeleteOrder, produces = "application/json")
-	public void deleteOrder(@PathVariable String id) {
-		System.out.println("Deleting Order... ");
-		System.out.println("Order Id => "+id);
-//		try {
-//			Long oid = Long.parseLong(id);
-//			customerService.deleteOrder(oid);
-//		} catch (Exception e) {
-//			log.error("Error calling deleteOrder()", e);
-//		}
-	}
+//	@DeleteMapping(value = RESTUrls.URL_DeleteOrder, produces = "application/json")
+//	public void deleteOrder(@PathVariable String id) {
+//		System.out.println("Deleting Order... ");
+//		System.out.println("Order Id => "+id);
+////		try {
+////			Long oid = Long.parseLong(id);
+////			customerService.deleteOrder(oid);
+////		} catch (Exception e) {
+////			log.error("Error calling deleteOrder()", e);
+////		}
+//	}
 }

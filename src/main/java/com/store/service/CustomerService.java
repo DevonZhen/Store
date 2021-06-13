@@ -48,61 +48,61 @@ public class CustomerService {
 	
 	
 	//Insert Customer
-	public CustomersDTO newCustomer(CustomersDTO customerDTO) {
-		Customers customer = newCustomerDomain.apply(customerDTO);
-		customerRepo.save(customer);
-		return customerDTO;
-	}	
+//	public CustomersDTO newCustomer(CustomersDTO customerDTO) {
+//		Customers customer = newCustomerDomain.apply(customerDTO);
+//		customerRepo.save(customer);
+//		return customerDTO;
+//	}	
 
 
 	//Insert Order
-	public OrdersDTO newOrder(OrdersDTO ordersDTO) {
-		Orders orders = newOrdersDomain.apply(ordersDTO);
-		ordersRepo.save(orders);
-		return ordersDTO;
-	}
+//	public OrdersDTO newOrder(OrdersDTO ordersDTO) {
+//		Orders orders = newOrdersDomain.apply(ordersDTO);
+//		ordersRepo.save(orders);
+//		return ordersDTO;
+//	}
 		
 	
 	//Update Customer
-	public CustomersDTO customerUpdate() {
-		Long id=(long) 11489;
-		//Get Customer's Id
-		Customers customerId = customerRepo.findCustomerId(id);
-		if(customerId==null)
-			throw new RuntimeException(String.format("Cannot find order with id '%d'",customerId));
-		
-		//Apply changes only to Customers
-//		customersDomain.accept(customersDTO, customerId.get());
-		return null;
-	}	
+//	public CustomersDTO customerUpdate() {
+//		Long id=(long) 11489;
+//		//Get Customer's Id
+//		Customers customerId = customerRepo.findCustomerId(id);
+//		if(customerId==null)
+//			throw new RuntimeException(String.format("Cannot find order with id '%d'",customerId));
+//		
+//		//Apply changes only to Customers
+////		customersDomain.accept(customersDTO, customerId.get());
+//		return null;
+//	}	
 
 	
 	//Update Orders
-	public OrdersDTO orderUpdate() {
-		Long id=(long) 8888;
-		//Get specific Order Id
-		Optional<Orders> orderId = ordersRepo.findByOrderId(id);
-		if(orderId==null)
-			throw new RuntimeException(String.format("Cannot find order with id '%d'",id));
-		
-		return null;
-		//Apply changes to Orders+Order Items?
-//		ordersDomain.accept(ordersDTO, orderId.get());
-	}
+//	public OrdersDTO orderUpdate() {
+//		Long id=(long) 8888;
+//		//Get specific Order Id
+//		Optional<Orders> orderId = ordersRepo.findByOrderId(id);
+//		if(orderId==null)
+//			throw new RuntimeException(String.format("Cannot find order with id '%d'",id));
+//		
+//		return null;
+//		//Apply changes to Orders+Order Items?
+////		ordersDomain.accept(ordersDTO, orderId.get());
+//	}
 		
 	
 	//Delete Customer + Orders
-	public void deleteCustomer(Long id) {
-		customerRepo.deleteById(id);
-//		ordersRepo.deleteByCustomerId(id);
-//		orderItemsRepo.deleteByOrderId(id);
-	}
+//	public void deleteCustomer(Long id) {
+//		customerRepo.deleteById(id);
+////		ordersRepo.deleteByCustomerId(id);
+////		orderItemsRepo.deleteByOrderId(id);
+//	}
 	
 	
 	//Delete Orders
-	public void deleteOrder(Long id) {
-		ordersRepo.deleteByCustomerId(id);
-	}
+//	public void deleteOrder(Long id) {
+//		ordersRepo.deleteByCustomerId(id);
+//	}
 	
 	
 	
@@ -147,8 +147,9 @@ public class CustomerService {
 				ordersDTO.setOrderId(orders.getOrderId());
 				ordersDTO.setOrderStatus(orders.getOrderStatus());
 				ordersDTO.setOrderDate(orders.getOrderDate());
-				ordersDTO.setStore(toStoresDTO.apply(orders.getStores()));
-				ordersDTO.setCustomerId(orders.getCustomerId());
+				ordersDTO.setStoreId(orders.getStoreId());
+//				ordersDTO.setStores(toStoresDTO.apply(orders.getStores()));
+//				ordersDTO.setCustomerId(orders.getCustomerId());
 				ordersDTO.setOrderItems(orders.getOrderItemsList().stream().map(toOrderItemsDTO).collect(Collectors.toList())); 
 			}
 			return ordersDTO;
@@ -165,7 +166,7 @@ public class CustomerService {
 			OrderItemsDTO orderItemsDTO = new OrderItemsDTO();
 			if(orderItems != null) {
 				orderItemsDTO.setId(orderItems.getId());
-				orderItemsDTO.setOrdersItemsId(orderItems.getOrdersItemsId());
+				orderItemsDTO.setOrderItemsId(orderItems.getOrderItemsId());
 				orderItemsDTO.setItem(orderItems.getItem());
 				orderItemsDTO.setQuantity(orderItems.getQuantity());
 				orderItemsDTO.setPrice(orderItems.getPrice());
@@ -224,7 +225,7 @@ public class CustomerService {
 			orders.setOrderStatus(ordersDTO.getOrderStatus());
 			orders.setOrderDate(ordersDTO.getOrderDate());
 //			orders.setStoreId(ordersDTO.getStoreId());
-			orders.setCustomerId(ordersDTO.getCustomerId());
+//			orders.setCustomerId(ordersDTO.getCustomerId());
 			
 			//Reset current Order Items List
 			orderItemsRepo.deleteInBatch(orders.getOrderItemsList());
@@ -247,7 +248,7 @@ public class CustomerService {
 		public OrderItems apply(OrderItemsDTO orderItemsDTO) {
 			OrderItems orderItems = new OrderItems();
 			orderItems.setId(orderItemsDTO.getId());
-			orderItems.setOrdersItemsId(orderItemsDTO.getOrdersItemsId());
+			orderItems.setOrderItemsId(orderItemsDTO.getOrderItemsId());
 			orderItems.setItem(orderItemsDTO.getItem());
 			orderItems.setQuantity(orderItemsDTO.getQuantity());
 			orderItems.setPrice(orderItemsDTO.getPrice());
@@ -280,20 +281,20 @@ public class CustomerService {
 	//==================================================================================================================//
 	//Insert Order
 	
-	Function<OrdersDTO, Orders> newOrdersDomain = new Function<OrdersDTO, Orders>(){
-		@Override
-		public Orders apply(OrdersDTO ordersDTO) {
-			Orders orders = new Orders();
-			orders.setOrderId(ordersDTO.getOrderId());
-			orders.setOrderStatus(ordersDTO.getOrderStatus());
-			orders.setOrderDate(ordersDTO.getOrderDate());
-//			orders.setStoreId(ordersDTO.getStoreId());
-			orders.setStores(toNewStoresDomain.apply(ordersDTO.getStore()));
-			orders.setCustomerId(ordersDTO.getCustomerId());
-			
-			return orders;
-		}
-	};
+//	Function<OrdersDTO, Orders> newOrdersDomain = new Function<OrdersDTO, Orders>(){
+//		@Override
+//		public Orders apply(OrdersDTO ordersDTO) {
+//			Orders orders = new Orders();
+//			orders.setOrderId(ordersDTO.getOrderId());
+//			orders.setOrderStatus(ordersDTO.getOrderStatus());
+//			orders.setOrderDate(ordersDTO.getOrderDate());
+////			orders.setStoreId(ordersDTO.getStoreId());
+//			orders.setStores(toNewStoresDomain.apply(ordersDTO.getStore()));
+////			orders.setCustomerId(ordersDTO.getCustomerId());
+//			
+//			return orders;
+//		}
+//	};
 	
 	
 	//Insert Stores

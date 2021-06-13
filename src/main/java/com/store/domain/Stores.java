@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -27,10 +28,10 @@ public class Stores implements Serializable{
 	@Column(name="\"Id\"", unique=true, nullable=false) 
 	private Long id;
 
-//	@Column(name="\"Store_Id\"")
-//	private Long storeId;
-	
 	@Id
+	@Column(name="\"Store_Id\"")
+	private Long storeId;
+	
 	@Column(name="\"Store_Name\"")
 	private String storeName;
 
@@ -47,8 +48,11 @@ public class Stores implements Serializable{
 	private Long zip;
 	
 	//Stores --> Orders
-	@OneToOne(mappedBy = "stores")
-	private Orders orders;
+	
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name="\"Store_Id\"", nullable=false)
+//	@OneToOne(mappedBy = "stores")
+//	private Orders orders;
 	
 	
 }

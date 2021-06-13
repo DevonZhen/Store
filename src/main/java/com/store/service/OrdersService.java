@@ -44,8 +44,8 @@ public class OrdersService {
 				ordersDTO.setOrderId(orders.getOrderId());
 				ordersDTO.setOrderStatus(orders.getOrderStatus());
 				ordersDTO.setOrderDate(orders.getOrderDate());
-				ordersDTO.setStore(toStoresDTO.apply(orders.getStores()));
-				ordersDTO.setCustomerId(orders.getCustomerId());
+//				ordersDTO.setStores(toStoresDTO.apply(orders.getStores()));
+//				ordersDTO.setCustomerId(orders.getCustomerId());
 //				ordersDTO.setOrderItems(toOrderItemsDTO.apply(orders.getOrderItems()));
 				ordersDTO.setOrderItems(orders.getOrderItemsList().stream().map(toOrderItemsDTO).collect(Collectors.toList()));
 						 
@@ -68,7 +68,7 @@ public class OrdersService {
 			OrderItemsDTO orderItemsDTO = new OrderItemsDTO();
 			if(orderItems != null) {
 				orderItemsDTO.setId(orderItems.getId());
-				orderItemsDTO.setOrdersItemsId(orderItems.getOrdersItemsId());
+				orderItemsDTO.setOrderItemsId(orderItems.getOrderItemsId());
 				orderItemsDTO.setItem(orderItems.getItem());
 				orderItemsDTO.setQuantity(orderItems.getQuantity());
 				orderItemsDTO.setPrice(orderItems.getPrice());

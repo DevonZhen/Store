@@ -48,17 +48,16 @@ public class Orders implements Serializable{
 	@Column(name="\"Order_Date\"")
 	private Date orderDate;
 	
-	//Changed to Character varying store
-//	@Column(name="\"Store\"")
-//	private String store; 
+	@Column(name="\"Store_Id\"")
+	private Long storeId; 
 	
-	@Column(name="\"Customer_Id\"")
-	private Long customerId; 
+//	@Column(name="\"Customer_Id\"")
+//	private Long customerId; 
 	
 	//Orders --> Customers Relationship
-//	@ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "\"Customer_Id\"", nullable = false)
-//	private Customers customer_Id;
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "\"Customer_Id\"", nullable = false)
+	private Customers customerId;
 	
 	//Orders(PK: Order_Id) --> Order Items(FK: Order_Id)
 	@OneToMany( mappedBy="orders",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -66,8 +65,9 @@ public class Orders implements Serializable{
 	private List<OrderItems> orderItemsList = Lists.newArrayList();
 
 	//Orders(PK: Store_Id) --> Store(FK: Store_Id)
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "\"Store_Name\"",insertable=false, updatable=false)
-	private Stores stores;
+//	@OneToOne(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.LAZY) 
+//	@OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "\"Store_Id\"",insertable=false, updatable=false,nullable=false)
+//	private Stores stores;
 	
 }

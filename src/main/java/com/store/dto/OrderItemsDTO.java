@@ -3,7 +3,7 @@ import lombok.Data;
 @Data
 public class OrderItemsDTO {
 	private Long id;
-	private Long ordersItemsId;
+	private Long orderItemsId;
 	private String item;
 	private Long quantity;
 	private Double price;

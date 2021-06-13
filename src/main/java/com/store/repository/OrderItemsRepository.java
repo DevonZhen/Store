@@ -15,7 +15,7 @@ public interface OrderItemsRepository extends BaseRepository<OrderItems, Long>{
 	
 	
 	//Delete Query, remember to change SELECT
-	@Query("SELECT i from Order_Items i WHERE i.ordersItemsId = ?1")
-	public Optional<OrderItems> deleteByOrderId(Long ordersItemsId);
+//	@Query("SELECT i from Order_Items i WHERE i.ordersItemsId = ?1")
+//	public Optional<OrderItems> deleteByOrderId(Long ordersItemsId);
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.collect.Lists;
+import com.store.domain.Customers;
 import com.store.util.CustomDateDeserializer;
 import com.store.util.CustomDateSerializer;
 
@@ -20,7 +21,8 @@ public class OrdersDTO {
 	@JsonDeserialize(using = CustomDateDeserializer.class)     // java.util.Date object with JSON format
 	@JsonSerialize(using   = CustomDateSerializer.class)
 	private Date orderDate;
-	private StoresDTO store;  // 1 - 1 Stores
+//	private StoresDTO stores;  // 1 - 1 Stores
+	private Long storeId;
 	private Long customerId; 
 	//---------------------------------//
 	private List<OrderItemsDTO> orderItems;  //1 - Many Order Items
