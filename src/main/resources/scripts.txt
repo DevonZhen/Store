@@ -42,25 +42,24 @@ ALTER TABLE public."Orders"
     
 ============================================================================================       
     
-CREATE TABLE public."Orders"
+CREATE TABLE public."Order_Items"
 (
     "Id" integer NOT NULL,
-    "Order_Id" integer NOT NULL,
-    "Order_Status" character varying(30) COLLATE pg_catalog."default",
-    "Order_Date" date,
-    "Customer_Id" integer,
-    "Store_Id" integer,
-    CONSTRAINT orders_pk PRIMARY KEY ("Order_Id"),
-    CONSTRAINT "Customer_Id" FOREIGN KEY ("Customer_Id")
-        REFERENCES public."Customers" ("Customer_Id") MATCH SIMPLE
+    "Order_Items_Id" integer NOT NULL,
+    "Item" character varying(30) COLLATE pg_catalog."default",
+    "Quantity" integer,
+    "Price" numeric,
+    "Order_Id" integer,
+    CONSTRAINT "Order_Items_pkey" PRIMARY KEY ("Order_Items_Id"),
+    CONSTRAINT "Order_Items_Id" FOREIGN KEY ("Order_Id")
+        REFERENCES public."Orders" ("Order_Id") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
-        NOT VALID
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE public."Orders"
+ALTER TABLE public."Order_Items"
     OWNER to postgres;
 
 

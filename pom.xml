@@ -5,19 +5,39 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   
-   <properties>
-	<spring.boot.version>2.2.5.RELEASE</spring.boot.version>
-	<hibernate.version>5.4.12.Final</hibernate.version>
-  </properties>
+  	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.6.RELEASE</version>
+		<relativePath/> 
+	</parent>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>	
 
- <!-- Dependencies -->
-	<dependencies>
-		<!-- Spring Framework related dependencies -->
+    <dependencies>
 		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-data-jpa</artifactId>
-		    <version>${spring.boot.version}</version>
-		    <exclusions>
+    		<groupId>org.postgresql</groupId>
+    		<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
+		</dependency>
+ 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<exclusions>
 				<exclusion>
 					<groupId>org.apache.tomcat</groupId>
 					<artifactId>tomcat-jdbc</artifactId>
@@ -25,107 +45,70 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-web</artifactId>
-		    <version>${spring.boot.version}</version>
-		    <exclusions>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
 				<exclusion>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-validation</artifactId>
 				</exclusion>
 				<exclusion>
-	 		        <groupId>org.apache.logging.log4j</groupId>
+ 			        <groupId>org.apache.logging.log4j</groupId>
 			        <artifactId>log4j-to-slf4j</artifactId>
 			    </exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-log4j2</artifactId>
-		    <version>${spring.boot.version}</version>
-		</dependency>
-		<!--  Hibernate Dependencies -->
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-core</artifactId>
-		    <version>${hibernate.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-entitymanager</artifactId>
-		    <version>${hibernate.version}</version>
-		</dependency>
-		<!-- Lombok Dependencies -->
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>	
+		
+		
 		<dependency>
-		    <groupId>org.projectlombok</groupId>
-		    <artifactId>lombok</artifactId>
-		    <version>1.18.12</version>
-		    <scope>provided</scope>
-		</dependency>
-		<!-- PostgreSQL -->
-		<dependency>
-		    <groupId>org.postgresql</groupId>
-		    <artifactId>postgresql</artifactId>
-		    <version>42.2.8</version>
-		</dependency>
-		<!-- Google Guava -->
-		<dependency>
-		    <groupId>com.google.guava</groupId>
-		    <artifactId>guava</artifactId>
-		    <version>28.2-jre</version>
-		</dependency>
-		<!-- Jakarta -->
-		<dependency>
-		    <groupId>jakarta.xml.bind</groupId>
-		    <artifactId>jakarta.xml.bind-api</artifactId>
-		    <version>2.3.2</version>
-		</dependency>
-		<!-- Runtime, com.sun.xml.bind module -->
-		<dependency>
-		    <groupId>org.glassfish.jaxb</groupId>
-		    <artifactId>jaxb-runtime</artifactId>
-		    <version>2.3.2</version>
-		</dependency>
-		<!-- JUnit Testing -->
-		<dependency>
-		    <groupId>junit</groupId>
-		    <artifactId>junit</artifactId>
-		    <version>4.13</version>
-		    <scope>test</scope>
-		</dependency>
+   		    <groupId>com.google.guava</groupId>
+    	    <artifactId>guava</artifactId>
+    		<version>r05</version>
+		</dependency>	
 		<dependency>
 		    <groupId>org.modelmapper</groupId>
 		    <artifactId>modelmapper</artifactId>
 		    <version>0.7.5</version>
-		</dependency>	
-		
-	</dependencies>
-  
-  
-  <build>
-  <finalName>${project.artifactId}</finalName>
-  <resources>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>	
+    </dependencies>
+
+
+    <build>
+	  <finalName>${project.artifactId}</finalName>
+      <resources>
 		<resource>
 		   <directory>src/main/resources</directory>
 		</resource>
-	  </resources>  
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
-        <configuration>
-          <release>11</release>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.2.3</version>
-        <configuration>
+	  </resources>    
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <release>11</release>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <configuration>
             <warSourceDirectory>src/webapp</warSourceDirectory>
             <failOnMissingWebXml>false</failOnMissingWebXml>
           </configuration>
-      </plugin>
-    </plugins>
-  </build>
+        </plugin>
+      </plugins>
+    </build>
+    
   
 </project>
