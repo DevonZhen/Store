@@ -54,42 +54,25 @@ public class CustomerService {
 //		return customerDTO;
 //	}	
 
-
-	//Insert Order
-//	public OrdersDTO newOrder(OrdersDTO ordersDTO) {
-//		Orders orders = newOrdersDomain.apply(ordersDTO);
-//		ordersRepo.save(orders);
-//		return ordersDTO;
-//	}
 		
 	
 	//Update Customer
-//	public CustomersDTO customerUpdate() {
-//		Long id=(long) 11489;
-//		//Get Customer's Id
-//		Customers customerId = customerRepo.findCustomerId(id);
-//		if(customerId==null)
-//			throw new RuntimeException(String.format("Cannot find order with id '%d'",customerId));
-//		
-//		//Apply changes only to Customers
-////		customersDomain.accept(customersDTO, customerId.get());
-//		return null;
-//	}	
+	public CustomersDTO customerUpdate(CustomersDTO customersDTO) {
+		//Get Customer's Id
+		System.out.println("Entering New Zone "+customersDTO.getCustomerId());
+		Customers customers = customerRepo.findCustomerId(customersDTO.getCustomerId());
+//		Optional<Customers> customers = customerRepo.findById(customersDTO.getCustomerId());
+		System.out.println("Customer Id = "+customers);
+//		if(customers==null)
+//			throw new RuntimeException(String.format("Cannot find order with id '%d'",customers));
 
-	
-	//Update Orders
-//	public OrdersDTO orderUpdate() {
-//		Long id=(long) 8888;
-//		//Get specific Order Id
-//		Optional<Orders> orderId = ordersRepo.findByOrderId(id);
-//		if(orderId==null)
-//			throw new RuntimeException(String.format("Cannot find order with id '%d'",id));
-//		
-//		return null;
-//		//Apply changes to Orders+Order Items?
-////		ordersDomain.accept(ordersDTO, orderId.get());
-//	}
-		
+		//Apply changes only to Customers
+//		customersDomain.accept(customersDTO, customers.get());
+		return null;
+//		return customersDTO;
+	}	
+
+			
 	
 	//Delete Customer + Orders
 //	public void deleteCustomer(Long id) {
@@ -99,11 +82,7 @@ public class CustomerService {
 //	}
 	
 	
-	//Delete Orders
-//	public void deleteOrder(Long id) {
-//		ordersRepo.deleteByCustomerId(id);
-//	}
-	
+
 	
 	
 	//==================================================================================================================//
@@ -208,7 +187,20 @@ public class CustomerService {
 			customers.setEmail(customersDTO.getEmail());
 			customers.setStreet(customersDTO.getStreet());
 			customers.setZip(customersDTO.getZip());
-
+			
+			//Orders Array + Order Items Array
+			System.out.println("Clearing...");
+			ordersRepo.deleteInBatch(customers.getOrdersList());
+			customers.getOrdersList().clear();
+			System.out.println("Re-adding...");
+			if(!customersDTO.getOrders().isEmpty()) {
+				for(OrdersDTO ordersDTO : customersDTO.getOrders()) {
+					Orders orders = toNewOrdersDomain.apply(ordersDTO);
+					orders.setCustomerId(customers);
+					customers.getOrdersList().add(orders);
+				}
+			}
+			
 		}
 	};
 	
@@ -234,7 +226,7 @@ public class CustomerService {
 			//Add the new order items list
 			if(!ordersDTO.getOrderItems().isEmpty()) {
 				for(OrderItemsDTO orderItemsDTO : ordersDTO.getOrderItems()) {
-					OrderItems orderItems = toNewOrderItems.apply(orderItemsDTO);
+					OrderItems orderItems = toNewOrderItemsDomain.apply(orderItemsDTO);
 					orderItems.setOrders(orders);
 					orders.getOrderItemsList().add(orderItems);
 				}
@@ -243,7 +235,24 @@ public class CustomerService {
 	};
 	
 	
-	Function<OrderItemsDTO, OrderItems> toNewOrderItems = new Function<OrderItemsDTO, OrderItems>(){
+	Function<OrdersDTO, Orders> toNewOrdersDomain = new Function<OrdersDTO, Orders>(){
+		@Override
+		public Orders apply(OrdersDTO ordersDTO) {
+			Orders orders = new Orders();
+			orders.setId(ordersDTO.getId());
+			orders.setOrderId(ordersDTO.getOrderId());
+			orders.setOrderStatus(ordersDTO.getOrderStatus());
+			orders.setOrderDate(ordersDTO.getOrderDate());
+			orders.setStoreId(ordersDTO.getStoreId());
+			orders.setCustomerId(orders.getCustomerId());
+			return orders;
+		}
+	};
+	
+	
+	
+	
+	Function<OrderItemsDTO, OrderItems> toNewOrderItemsDomain = new Function<OrderItemsDTO, OrderItems>(){
 		@Override
 		public OrderItems apply(OrderItemsDTO orderItemsDTO) {
 			OrderItems orderItems = new OrderItems();
@@ -278,25 +287,7 @@ public class CustomerService {
 	};
 	
 	
-	//==================================================================================================================//
-	//Insert Order
-	
-//	Function<OrdersDTO, Orders> newOrdersDomain = new Function<OrdersDTO, Orders>(){
-//		@Override
-//		public Orders apply(OrdersDTO ordersDTO) {
-//			Orders orders = new Orders();
-//			orders.setOrderId(ordersDTO.getOrderId());
-//			orders.setOrderStatus(ordersDTO.getOrderStatus());
-//			orders.setOrderDate(ordersDTO.getOrderDate());
-////			orders.setStoreId(ordersDTO.getStoreId());
-//			orders.setStores(toNewStoresDomain.apply(ordersDTO.getStore()));
-////			orders.setCustomerId(ordersDTO.getCustomerId());
-//			
-//			return orders;
-//		}
-//	};
-	
-	
+
 	//Insert Stores
 	Function<StoresDTO, Stores> toNewStoresDomain = new Function<StoresDTO, Stores>(){
 		@Override

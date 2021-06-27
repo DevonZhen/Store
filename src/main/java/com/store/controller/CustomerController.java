@@ -49,7 +49,27 @@ public class CustomerController {
 			log.error("Error calling findAll()", e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}	
+	}
+	
+	
+	
+	//Update Customer
+	@PostMapping(value = RESTUrls.URL_UpdateCustomer, produces = "application/json")
+	public CustomersDTO updateCustomer(@RequestBody CustomersDTO customersDTO) {
+		System.out.println("Updating Customer...");
+		System.out.println("CustomersDTO ==> "+customersDTO);
+		CustomersDTO responseDTO = null;
+		try {
+			responseDTO = customerService.customerUpdate(customersDTO);
+		}catch(Exception e) {
+			log.error("Error calling updateCustomer()", e);
+		}
+		return responseDTO;
+//		return null;
+		
+	}
+	
+	
 	
 	//Insert Customer
 //	@PostMapping(value=RESTUrls.URL_PostCustomer, produces="application/json")
@@ -59,44 +79,6 @@ public class CustomerController {
 ////		CustomersDTO responseDTO=null;
 //		return null;
 //	}
-	
-	//Insert Order
-//	@PostMapping(value=RESTUrls.URL_PostOrder, produces="application/json")
-//	public OrdersDTO insertOrder(@RequestBody OrdersDTO ordersDTO) {
-//		System.out.println("Inserting Order...");
-//		System.out.println("OrderDTO => "+ordersDTO);
-////		OrdersDTO  responseDTO=null;
-//		return null;
-//	}
-	
-	
-	//Update Customer
-//	@PostMapping(value = RESTUrls.URL_PostCustomer, produces = "application/json")
-//	public CustomersDTO updateCustomer(@RequestBody CustomersDTO customersDTO) {
-//		System.out.println("Updating Customer...");
-//		System.out.println("CustomersDTO ==> "+customersDTO);
-////		try {
-////			customerService.customerUpdate();
-////		}catch(Exception e) {
-////			log.error("Error calling updateCustomer()", e);
-////		}
-//		return null;
-//	}
-	
-	//Update Order
-//	@PostMapping(value = RESTUrls.URL_PostOrder, produces = "application/json")
-//	public OrdersDTO updateOrder(@RequestBody OrdersDTO ordersDTO) {
-//		System.out.println("Updating Order...");
-//		System.out.println("OrdersDTO ==> "+ordersDTO);
-////		try {
-////			customerService.orderUpdate();
-////		}catch(Exception e) {
-////			log.error("Error calling updateOrder()", e);
-////		}
-//		return null;
-//	}
-	
-	
 	
 	
 	//Delete Customer
@@ -113,16 +95,5 @@ public class CustomerController {
 //	}
 	
 	
-	//Delete Order
-//	@DeleteMapping(value = RESTUrls.URL_DeleteOrder, produces = "application/json")
-//	public void deleteOrder(@PathVariable String id) {
-//		System.out.println("Deleting Order... ");
-//		System.out.println("Order Id => "+id);
-////		try {
-////			Long oid = Long.parseLong(id);
-////			customerService.deleteOrder(oid);
-////		} catch (Exception e) {
-////			log.error("Error calling deleteOrder()", e);
-////		}
-//	}
+
 }
