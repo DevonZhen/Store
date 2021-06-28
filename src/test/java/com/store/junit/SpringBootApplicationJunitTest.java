@@ -83,8 +83,9 @@ public class SpringBootApplicationJunitTest {
 		    orderItemsDTO12.setQuantity(Long.valueOf(3));
 		    orderItemsDTO12.setPrice(Double.valueOf(94.33));
 		    orderItemsDTO12.setOrderId(Long.valueOf(84962));		    
-		    orderItemDTOList1.add(orderItemsDTO12);
-	    
+		    orderItemDTOList1.add(orderItemsDTO12);	    
+		    
+		    ordersDTO_1.setOrderItems(orderItemDTOList1);
 		    ordersDTOlist.add(ordersDTO_1);
 		    
 		    //initialize Orders_2 
@@ -96,6 +97,7 @@ public class SpringBootApplicationJunitTest {
 		    ordersDTO_2.setOrderDate(formatter2.parse("2021-02-01"));
 		    ordersDTO_2.setStoreId(Long.valueOf(2));
 		    ordersDTO_2.setCustomerId(null);
+		    
 		    List<OrderItemsDTO> orderItemDTOList2 = new ArrayList<>(); 
 		    //initialize Orders_2 Items_1
 		    OrderItemsDTO orderItemsDTO21 = new OrderItemsDTO();
@@ -105,8 +107,9 @@ public class SpringBootApplicationJunitTest {
 		    orderItemsDTO21.setQuantity(Long.valueOf(1));
 		    orderItemsDTO21.setPrice(Double.valueOf(125.99));
 		    orderItemsDTO21.setOrderId(Long.valueOf(8888));
-		    orderItemDTOList2.add(orderItemsDTO21);
-	
+		    orderItemDTOList2.add(orderItemsDTO21);	
+		    
+		    ordersDTO_2.setOrderItems(orderItemDTOList2);
 		    ordersDTOlist.add(ordersDTO_2);
 		    
 		    customersDTO.setOrders(ordersDTOlist);
