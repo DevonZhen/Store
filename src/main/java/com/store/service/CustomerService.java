@@ -60,11 +60,16 @@ public class CustomerService {
 	public CustomersDTO customerUpdate(CustomersDTO customersDTO) {
 		//Get Customer's Id
 		System.out.println("Entering New Zone "+customersDTO.getCustomerId());
-		Customers customers = customerRepo.findCustomerId(customersDTO.getCustomerId());
-//		Optional<Customers> customers = customerRepo.findById(customersDTO.getCustomerId());
-		System.out.println("Customer Id = "+customers);
-//		if(customers==null)
-//			throw new RuntimeException(String.format("Cannot find order with id '%d'",customers));
+		try {
+			//Customers customers = customerRepo.findCustomerId(customersDTO.getCustomerId());
+			Optional<Customers> customers = customerRepo.findById(customersDTO.getCustomerId());
+			System.out.println("### CustomerId ### = "+customers.get().getFirstName());
+//			if(customers==null)
+//				throw new RuntimeException(String.format("Cannot find order with id '%d'",customers));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		//Apply changes only to Customers
 //		customersDomain.accept(customersDTO, customers.get());

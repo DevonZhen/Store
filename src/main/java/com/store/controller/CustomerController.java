@@ -61,6 +61,7 @@ public class CustomerController {
 		CustomersDTO responseDTO = null;
 		try {
 			responseDTO = customerService.customerUpdate(customersDTO);
+			System.out.println("### responseDTO ==> "+responseDTO);
 		}catch(Exception e) {
 			log.error("Error calling updateCustomer()", e);
 		}
