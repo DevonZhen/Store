@@ -1,5 +1,7 @@
 package com.store.junit;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +39,7 @@ public class SpringBootApplicationJunitTest {
 	
 	
 	@Test
-	public void testCtrlFindById() 
+	public void testCtrlFindById() throws ParseException 
 	{				
 		try {
 			//initialize Customer
@@ -57,7 +59,8 @@ public class SpringBootApplicationJunitTest {
 		    ordersDTO_1.setId(Long.valueOf(3));
 		    ordersDTO_1.setOrderId(Long.valueOf(84962));
 		    ordersDTO_1.setOrderStatus("Waiting");
-		   // ordersDTO_1.setOrderDate(new java.util.Date("2020-09-01"));
+		    SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+		    ordersDTO_1.setOrderDate(formatter1.parse("2020-09-01"));
 		    ordersDTO_1.setStoreId(Long.valueOf(1));
 		    ordersDTO_1.setCustomerId(null);
 		    
@@ -89,7 +92,8 @@ public class SpringBootApplicationJunitTest {
 		    ordersDTO_2.setId(Long.valueOf(2));
 		    ordersDTO_2.setOrderId(Long.valueOf(8888));
 		    ordersDTO_2.setOrderStatus("Completed");
-		   // ordersDTO_2.setOrderDate(new java.util.Date("2021-02-01"));
+		    SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+		    ordersDTO_2.setOrderDate(formatter2.parse("2021-02-01"));
 		    ordersDTO_2.setStoreId(Long.valueOf(2));
 		    ordersDTO_2.setCustomerId(null);
 		    List<OrderItemsDTO> orderItemDTOList2 = new ArrayList<>(); 
