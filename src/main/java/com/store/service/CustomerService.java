@@ -130,7 +130,7 @@ public class CustomerService {
 				ordersDTO.setStoreId(orders.getStoreId());
 //				ordersDTO.setStores(toStoresDTO.apply(orders.getStores()));
 //				ordersDTO.setCustomerId(orders.getCustomerId());
-				ordersDTO.setOrderItems(orders.getOrderItemsList().stream().map(toOrderItemsDTO).collect(Collectors.toList())); 
+//				ordersDTO.setOrderItems(orders.getOrderItemsList().stream().map(toOrderItemsDTO).collect(Collectors.toList())); 
 			}
 			return ordersDTO;
 		}
@@ -193,16 +193,16 @@ public class CustomerService {
 			
 			
 			//Order Items List Clear
-			for(Orders o : customers.getOrdersList()) {
-				orderItemsRepo.deleteInBatch(o.getOrderItemsList());
-  			    o.getOrderItemsList().clear();
-  			    orderItemsRepo.flush();
-			}
+//			for(Orders o : customers.getOrdersList()) {
+//				orderItemsRepo.deleteInBatch(o.getOrderItemsList());
+//  			    o.getOrderItemsList().clear();
+//  			    orderItemsRepo.flush();
+//			}
 					
 			//Orders List Clear
 			ordersRepo.deleteInBatch(customers.getOrdersList());
 			customers.getOrdersList().clear();
-			ordersRepo.flush();
+//			ordersRepo.flush();
 			
 			//Adding Orders
 			//(Not Working)
@@ -210,6 +210,8 @@ public class CustomerService {
 			if(!customersDTO.getOrders().isEmpty()) {
 				for(OrdersDTO ordersDTO : customersDTO.getOrders()) {
 					Orders orders = toNewOrdersDomain.apply(ordersDTO);
+					System.out.println("Customer ---- "+customers);
+					System.out.println("Orders ---- "+orders);
 					orders.setCustomers(customers);
 					customers.getOrdersList().add(orders);
 				}
@@ -243,15 +245,15 @@ public class CustomerService {
 //			orders.setCustomerId(ordersDTO.getCustomerId());
 			
 			//Reset current Order Items List
-			orderItemsRepo.deleteInBatch(orders.getOrderItemsList());
-			orders.getOrderItemsList().clear();
+//			orderItemsRepo.deleteInBatch(orders.getOrderItemsList());
+//			orders.getOrderItemsList().clear();
 			
 			//Add the new order items list
 			if(!ordersDTO.getOrderItems().isEmpty()) {
 				for(OrderItemsDTO orderItemsDTO : ordersDTO.getOrderItems()) {
 					OrderItems orderItems = toNewOrderItemsDomain.apply(orderItemsDTO);
-					orderItems.setOrders(orders);
-					orders.getOrderItemsList().add(orderItems);
+//					orderItems.setOrders(orders);
+//					orders.getOrderItemsList().add(orderItems);
 				}
 			}		
 		}
@@ -266,7 +268,7 @@ public class CustomerService {
 			orders.setOrderStatus(ordersDTO.getOrderStatus());
 			orders.setOrderDate(ordersDTO.getOrderDate());
 			orders.setStoreId(ordersDTO.getStoreId());
-//			orders.setCustomers(ordersDTO.get);
+//			orders.setCustomers(ordersDTO.getC);
 			return orders;
 		}
 	};

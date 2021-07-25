@@ -62,7 +62,7 @@ public class SpringBootApplicationJunitTest {
 		    SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
 		    ordersDTO_1.setOrderDate(formatter1.parse("2020-09-01"));
 		    ordersDTO_1.setStoreId(Long.valueOf(1));
-		    ordersDTO_1.setCustomers(null);
+//		    ordersDTO_1.setCustomers(null);
 		    
 		    List<OrderItemsDTO> orderItemDTOList1 = new ArrayList<>(); 
 		    //initialize Orders_1 Items_1
@@ -94,7 +94,7 @@ public class SpringBootApplicationJunitTest {
 		    SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
 		    ordersDTO_2.setOrderDate(formatter2.parse("2021-02-01"));
 		    ordersDTO_2.setStoreId(Long.valueOf(2));
-		    ordersDTO_2.setCustomers(null);
+//		    ordersDTO_2.setCustomers(null);
 		    
 		    List<OrderItemsDTO> orderItemDTOList2 = new ArrayList<>(); 
 		    //initialize Orders_2 Items_1

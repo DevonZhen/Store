@@ -22,7 +22,7 @@ public class OrdersDTO {
 	private Date orderDate;
 //	private StoresDTO stores;  // 1 - 1 Stores
 	private Long storeId;
-	private Long customers; 
+//	private Long customers; 
 	//---------------------------------//
 	private List<OrderItemsDTO> orderItems;  //1 - Many Order Items
 }

@@ -46,7 +46,7 @@ public class OrdersService {
 //				ordersDTO.setStores(toStoresDTO.apply(orders.getStores()));
 //				ordersDTO.setCustomerId(orders.getCustomerId());
 //				ordersDTO.setOrderItems(toOrderItemsDTO.apply(orders.getOrderItems()));
-				ordersDTO.setOrderItems(orders.getOrderItemsList().stream().map(toOrderItemsDTO).collect(Collectors.toList()));
+//				ordersDTO.setOrderItems(orders.getOrderItemsList().stream().map(toOrderItemsDTO).collect(Collectors.toList()));
 						 
 			}catch(Exception e) {
 				log.error("function error toOrderDTO()", e);
