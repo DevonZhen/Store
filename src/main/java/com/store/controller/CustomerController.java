@@ -71,6 +71,28 @@ public class CustomerController {
 	}
 	
 	
+	@RequestMapping(value = "findById/{id}", method = RequestMethod.GET)
+	public ResponseEntity<CustomersDTO> test(@PathVariable Long id){
+		try {
+			CustomersDTO result = customerService.test1(id);
+			System.out.println("Customer All: "+result);
+			
+			return new ResponseEntity<CustomersDTO>(result, HttpStatus.OK);
+		}catch (Exception e) {
+			log.error("Error calling findAll()", e);
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//Insert Customer
 //	@PostMapping(value=RESTUrls.URL_PostCustomer, produces="application/json")

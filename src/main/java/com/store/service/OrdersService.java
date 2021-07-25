@@ -40,7 +40,6 @@ public class OrdersService {
 			System.out.println("Getting Orders List...");
 			OrdersDTO ordersDTO = new OrdersDTO();
 			try {
-				ordersDTO.setId(orders.getId());
 				ordersDTO.setOrderId(orders.getOrderId());
 				ordersDTO.setOrderStatus(orders.getOrderStatus());
 				ordersDTO.setOrderDate(orders.getOrderDate());
@@ -67,7 +66,6 @@ public class OrdersService {
 			System.out.println("Getting Order Items List...");
 			OrderItemsDTO orderItemsDTO = new OrderItemsDTO();
 			if(orderItems != null) {
-				orderItemsDTO.setId(orderItems.getId());
 				orderItemsDTO.setOrderItemsId(orderItems.getOrderItemsId());
 				orderItemsDTO.setItem(orderItems.getItem());
 				orderItemsDTO.setQuantity(orderItems.getQuantity());

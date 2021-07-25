@@ -32,13 +32,9 @@ public class Orders implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	
+	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="id_Sequence")
 	@SequenceGenerator(name="id_Sequence", schema="Public", sequenceName="\"Seq_Orders\"", allocationSize=1)
-	@Column(name="\"Id\"", unique=true, nullable=false) 
-	private Long id;
-	
-	@Id
 	@Column(name="\"Order_Id\"")
 	private Long orderId;
 	
@@ -57,7 +53,7 @@ public class Orders implements Serializable{
 	//Orders --> Customers Relationship
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "\"Customer_Id\"", nullable = false)
-	private Customers customerId;
+	private Customers customers;
 	
 	//Orders(PK: Order_Id) --> Order Items(FK: Order_Id)
 	@OneToMany( mappedBy="orders",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -69,5 +65,10 @@ public class Orders implements Serializable{
 //	@OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "\"Store_Id\"",insertable=false, updatable=false,nullable=false)
 //	private Stores stores;
+	
+	
+	
+	
+	
 	
 }

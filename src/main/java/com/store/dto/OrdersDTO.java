@@ -15,7 +15,6 @@ import lombok.Data;
 
 @Data
 public class OrdersDTO {
-	private Long id;
 	private Long orderId;
 	private String orderStatus;
 	@JsonDeserialize(using = CustomDateDeserializer.class)     // java.util.Date object with JSON format
@@ -23,7 +22,7 @@ public class OrdersDTO {
 	private Date orderDate;
 //	private StoresDTO stores;  // 1 - 1 Stores
 	private Long storeId;
-	private Long customerId; 
+	private Long customers; 
 	//---------------------------------//
 	private List<OrderItemsDTO> orderItems;  //1 - Many Order Items
 }

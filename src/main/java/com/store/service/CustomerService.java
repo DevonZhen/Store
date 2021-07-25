@@ -60,21 +60,19 @@ public class CustomerService {
 	public CustomersDTO customerUpdate(CustomersDTO customersDTO) {
 		//Get Customer's Id
 		System.out.println("Entering New Zone "+customersDTO.getCustomerId());
-		try {
-			//Customers customers = customerRepo.findCustomerId(customersDTO.getCustomerId());
-			Optional<Customers> customers = customerRepo.findById(customersDTO.getCustomerId());
-			System.out.println("### CustomerId ### = "+customers.get().getFirstName());
-//			if(customers==null)
-//				throw new RuntimeException(String.format("Cannot find order with id '%d'",customers));
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		//Customers customers = customerRepo.findCustomerId(customersDTO.getCustomerId());
+		Optional<Customers> customers = customerRepo.findById(customersDTO.getCustomerId());
+		System.out.println("### CustomerId ### = "+customers.get().getCustomerId());
+		
+		if(customers==null)
+			throw new RuntimeException(String.format("Cannot find order with id '%d'",customers.get().getCustomerId()));
 
-		//Apply changes only to Customers
-//		customersDomain.accept(customersDTO, customers.get());
-		return null;
-//		return customersDTO;
+			
+		customersDomain.accept(customersDTO, customers.get());
+		System.out.println("Hello World");
+//		return null;
+		return customersDTO;
 	}	
 
 			
@@ -99,7 +97,6 @@ public class CustomerService {
 			System.out.println("Getting Customers List....");
 			CustomersDTO customerDTO = new CustomersDTO();
 				try {
-					customerDTO.setId(customer.getId());
 					customerDTO.setCustomerId(customer.getCustomerId());
 					customerDTO.setFirstName(customer.getFirstName());
 					customerDTO.setLastName(customer.getLastName());
@@ -127,7 +124,6 @@ public class CustomerService {
 			System.out.println("Getting Order List...");
 			OrdersDTO ordersDTO = new OrdersDTO();
 			if(orders != null) {
-				ordersDTO.setId(orders.getId());
 				ordersDTO.setOrderId(orders.getOrderId());
 				ordersDTO.setOrderStatus(orders.getOrderStatus());
 				ordersDTO.setOrderDate(orders.getOrderDate());
@@ -149,7 +145,6 @@ public class CustomerService {
 			System.out.println("Getting Order Items List...");
 			OrderItemsDTO orderItemsDTO = new OrderItemsDTO();
 			if(orderItems != null) {
-				orderItemsDTO.setId(orderItems.getId());
 				orderItemsDTO.setOrderItemsId(orderItems.getOrderItemsId());
 				orderItemsDTO.setItem(orderItems.getItem());
 				orderItemsDTO.setQuantity(orderItems.getQuantity());
@@ -195,17 +190,40 @@ public class CustomerService {
 			
 			//Orders Array + Order Items Array
 			System.out.println("Clearing...");
+			
+			
+			//Order Items List Clear
+			for(Orders o : customers.getOrdersList()) {
+				orderItemsRepo.deleteInBatch(o.getOrderItemsList());
+  			    o.getOrderItemsList().clear();
+  			    orderItemsRepo.flush();
+			}
+					
+			//Orders List Clear
 			ordersRepo.deleteInBatch(customers.getOrdersList());
 			customers.getOrdersList().clear();
+			ordersRepo.flush();
+			
+			//Adding Orders
+			//(Not Working)
 			System.out.println("Re-adding...");
 			if(!customersDTO.getOrders().isEmpty()) {
 				for(OrdersDTO ordersDTO : customersDTO.getOrders()) {
 					Orders orders = toNewOrdersDomain.apply(ordersDTO);
-					orders.setCustomerId(customers);
+					orders.setCustomers(customers);
 					customers.getOrdersList().add(orders);
 				}
 			}
 			
+			//Adding Order Items
+//			for(Orders o: customers.getOrdersList()) {
+//				if(!o.getOrderItemsList().isEmpty()) {
+//					for(OrderItemsDTO orderItemsDTO : o.getOrderItemsList()) {
+//						
+//					}
+//				}
+//			}
+//			
 		}
 	};
 	
@@ -244,12 +262,11 @@ public class CustomerService {
 		@Override
 		public Orders apply(OrdersDTO ordersDTO) {
 			Orders orders = new Orders();
-			orders.setId(ordersDTO.getId());
 			orders.setOrderId(ordersDTO.getOrderId());
 			orders.setOrderStatus(ordersDTO.getOrderStatus());
 			orders.setOrderDate(ordersDTO.getOrderDate());
 			orders.setStoreId(ordersDTO.getStoreId());
-			orders.setCustomerId(orders.getCustomerId());
+//			orders.setCustomers(ordersDTO.get);
 			return orders;
 		}
 	};
@@ -261,7 +278,6 @@ public class CustomerService {
 		@Override
 		public OrderItems apply(OrderItemsDTO orderItemsDTO) {
 			OrderItems orderItems = new OrderItems();
-			orderItems.setId(orderItemsDTO.getId());
 			orderItems.setOrderItemsId(orderItemsDTO.getOrderItemsId());
 			orderItems.setItem(orderItemsDTO.getItem());
 			orderItems.setQuantity(orderItemsDTO.getQuantity());
@@ -308,6 +324,42 @@ public class CustomerService {
 	};
  
 	 
+	
+	
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public CustomersDTO test1(Long id) {
+		//Get Customer's Id
+		System.out.println("Entering New Zone "+ id);
+		try {
+			//Customers customers = customerRepo.findCustomerId(customersDTO.getCustomerId());
+			Optional<Customers> customers = customerRepo.findById(id);
+			System.out.println("### CustomerId ### = "+customers.get().getFirstName());
+//			if(customers==null)
+//				throw new RuntimeException(String.format("Cannot find order with id '%d'",customers));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}	
+
+	
+	
+	
 	
 	
 	

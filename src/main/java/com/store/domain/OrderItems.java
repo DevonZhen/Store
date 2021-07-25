@@ -24,13 +24,9 @@ public class OrderItems implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	
+	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="id_Sequence")
 	@SequenceGenerator(name="id_Sequence", schema="Public", sequenceName="\"Seq_Order_Items\"", allocationSize=1)
-	@Column(name="\"Id\"", unique=true, nullable=false) 
-	private Long id;
-	
-	@Id
 	@Column(name="\"Order_Items_Id\"")
 	private Long orderItemsId;
 	
@@ -53,6 +49,11 @@ public class OrderItems implements Serializable{
 
 	
 	
+//	@Override
+//	 public String toString() {
+//	        return "Orders ToString: "+getId()+ " "+getOrderItemsId()+" "+getItem()+" "+getQuantity()+" "
+//	        						  +getPrice()+" " +getOrder_Id();
+//	    }
 	
 	
 	
