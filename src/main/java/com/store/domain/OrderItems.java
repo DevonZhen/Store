@@ -43,9 +43,9 @@ public class OrderItems implements Serializable{
 	private Long order_Id; 
 	
 	//Order Items ---> Orders
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "\"Order_Id\"",insertable=false, updatable=false)
-//	private Orders orders;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "\"Order_Id\"",insertable=false, updatable=false)
+	private Orders orders;
 
 	
 	

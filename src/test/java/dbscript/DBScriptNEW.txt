@@ -24,17 +24,7 @@ CREATE TABLE IF NOT EXISTS public."Orders"
     "Order_Date" date,
     "Customer_Id" integer,
     "Store_Id" integer,
-    CONSTRAINT orders_pk PRIMARY KEY ("Order_Id"),
-    CONSTRAINT "Customer_Id" FOREIGN KEY ("Customer_Id")
-        REFERENCES public."Customers" ("Customer_Id") MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        NOT VALID,
-    CONSTRAINT "Store_Id" FOREIGN KEY ("Store_Id")
-        REFERENCES public."Stores" ("Store_Id") MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-        NOT VALID
+    CONSTRAINT orders_pk PRIMARY KEY ("Order_Id")
 )
 
 TABLESPACE pg_default;
@@ -51,11 +41,7 @@ CREATE TABLE IF NOT EXISTS public."Order_Items"
     "Quantity" integer,
     "Price" numeric,
     "Order_Id" integer,
-    CONSTRAINT "Order_Items_pkey" PRIMARY KEY ("Order_Items_Id"),
-    CONSTRAINT "Order_Items_Id" FOREIGN KEY ("Order_Id")
-        REFERENCES public."Orders" ("Order_Id") MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+    CONSTRAINT "Order_Items_pkey" PRIMARY KEY ("Order_Items_Id")
 )
 
 TABLESPACE pg_default;

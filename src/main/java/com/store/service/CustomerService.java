@@ -68,7 +68,6 @@ public class CustomerService {
 		if(customers==null)
 			throw new RuntimeException(String.format("Cannot find order with id '%d'",customers.get().getCustomerId()));
 
-			
 		customersDomain.accept(customersDTO, customers.get());
 		System.out.println("Hello World");
 //		return null;
@@ -124,13 +123,13 @@ public class CustomerService {
 			System.out.println("Getting Order List...");
 			OrdersDTO ordersDTO = new OrdersDTO();
 			if(orders != null) {
-				ordersDTO.setOrderId(orders.getOrderId());
+//				ordersDTO.setOrderId(orders.getOrderId());
 				ordersDTO.setOrderStatus(orders.getOrderStatus());
 				ordersDTO.setOrderDate(orders.getOrderDate());
 				ordersDTO.setStoreId(orders.getStoreId());
 //				ordersDTO.setStores(toStoresDTO.apply(orders.getStores()));
 //				ordersDTO.setCustomerId(orders.getCustomerId());
-//				ordersDTO.setOrderItems(orders.getOrderItemsList().stream().map(toOrderItemsDTO).collect(Collectors.toList())); 
+				ordersDTO.setOrderItems(orders.getOrderItemsList().stream().map(toOrderItemsDTO).collect(Collectors.toList()));		
 			}
 			return ordersDTO;
 		}
@@ -210,8 +209,8 @@ public class CustomerService {
 			if(!customersDTO.getOrders().isEmpty()) {
 				for(OrdersDTO ordersDTO : customersDTO.getOrders()) {
 					Orders orders = toNewOrdersDomain.apply(ordersDTO);
-					System.out.println("Customer ---- "+customers);
-					System.out.println("Orders ---- "+orders);
+//					System.out.println("Customer ---- "+customers);
+//					System.out.println("Orders ---- "+orders);
 					orders.setCustomers(customers);
 					customers.getOrdersList().add(orders);
 				}
@@ -264,11 +263,12 @@ public class CustomerService {
 		@Override
 		public Orders apply(OrdersDTO ordersDTO) {
 			Orders orders = new Orders();
-			orders.setOrderId(ordersDTO.getOrderId());
+			//orders.setOrderId(ordersDTO.getOrderId());
 			orders.setOrderStatus(ordersDTO.getOrderStatus());
 			orders.setOrderDate(ordersDTO.getOrderDate());
 			orders.setStoreId(ordersDTO.getStoreId());
-//			orders.setCustomers(ordersDTO.getC);
+			orders.setOrderItemsList(ordersDTO.getOrderItems().stream().map(toNewOrderItemsDomain).collect(Collectors.toList()));
+					 
 			return orders;
 		}
 	};
@@ -280,15 +280,33 @@ public class CustomerService {
 		@Override
 		public OrderItems apply(OrderItemsDTO orderItemsDTO) {
 			OrderItems orderItems = new OrderItems();
-			orderItems.setOrderItemsId(orderItemsDTO.getOrderItemsId());
+//			orderItems.setOrderItemsId(orderItemsDTO.getOrderItemsId());
+			try {
 			orderItems.setItem(orderItemsDTO.getItem());
 			orderItems.setQuantity(orderItemsDTO.getQuantity());
 			orderItems.setPrice(orderItemsDTO.getPrice());
 			orderItems.setOrder_Id(orderItemsDTO.getOrderId());
+			}catch(Exception e) {
+				log.error("New Order Items DTO not working", e);
+			}
+			
+			
 			//Returns the new Order Items List
 			return orderItems;
 		}
 	};
+	
+//	Function<OrderItems, OrderItemsDTO> toNewOrderItemsDomain = new Function<OrderItems, OrderItemsDTO>(){
+//		@Override
+//		public OrderItemsDTO apply(OrderItems orderItems) {
+//			OrderItemsDTO orderItemsDTO = new OrderItemsDTO();
+//			orderItemsDTO.setItem(orderItems.getItem());
+//			orderItemsDTO.setQuantity(orderItems.getQuantity());
+//			orderItemsDTO.setPrice(orderItems.getPrice());
+//			orderItemsDTO.setOrderId(orderItems.getOrder_Id());
+//			return orderItemsDTO;
+//		}
+//	};
 	
 	//==================================================================================================================//
 	//Insert Customer
