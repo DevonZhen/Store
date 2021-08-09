@@ -63,7 +63,7 @@ public class CustomerService {
 		
 		//Customers customers = customerRepo.findCustomerId(customersDTO.getCustomerId());
 		Optional<Customers> customers = customerRepo.findById(customersDTO.getCustomerId());
-		System.out.println("### CustomerId ### = "+customers.get().getCustomerId());
+		System.out.println("### CustomerId ### = "+customers.get().getFirstName());
 		
 		if(customers==null)
 			throw new RuntimeException(String.format("Cannot find order with id '%d'",customers.get().getCustomerId()));
@@ -123,7 +123,7 @@ public class CustomerService {
 			System.out.println("Getting Order List...");
 			OrdersDTO ordersDTO = new OrdersDTO();
 			if(orders != null) {
-//				ordersDTO.setOrderId(orders.getOrderId());
+				ordersDTO.setOrderId(orders.getOrderId());
 				ordersDTO.setOrderStatus(orders.getOrderStatus());
 				ordersDTO.setOrderDate(orders.getOrderDate());
 				ordersDTO.setStoreId(orders.getStoreId());
@@ -187,48 +187,20 @@ public class CustomerService {
 			customers.setStreet(customersDTO.getStreet());
 			customers.setZip(customersDTO.getZip());
 			
-			//Orders Array + Order Items Array
-			System.out.println("Clearing...");
-			
-			
-			//Order Items List Clear
-//			for(Orders o : customers.getOrdersList()) {
-//				orderItemsRepo.deleteInBatch(o.getOrderItemsList());
-//  			    o.getOrderItemsList().clear();
-//  			    orderItemsRepo.flush();
-//			}
-					
 			//Orders List Clear
 			ordersRepo.deleteInBatch(customers.getOrdersList());
 			customers.getOrdersList().clear();
-//			ordersRepo.flush();
 			
 			//Adding Orders
-			//(Not Working)
-			System.out.println("Re-adding...");
 			if(!customersDTO.getOrders().isEmpty()) {
 				for(OrdersDTO ordersDTO : customersDTO.getOrders()) {
 					Orders orders = toNewOrdersDomain.apply(ordersDTO);
-//					System.out.println("Customer ---- "+customers);
-//					System.out.println("Orders ---- "+orders);
 					orders.setCustomers(customers);
 					customers.getOrdersList().add(orders);
 				}
 			}
-			
-			//Adding Order Items
-//			for(Orders o: customers.getOrdersList()) {
-//				if(!o.getOrderItemsList().isEmpty()) {
-//					for(OrderItemsDTO orderItemsDTO : o.getOrderItemsList()) {
-//						
-//					}
-//				}
-//			}
-//			
 		}
 	};
-	
-	
 	
 	
 	//==================================================================================================================//
@@ -261,14 +233,22 @@ public class CustomerService {
 	
 	Function<OrdersDTO, Orders> toNewOrdersDomain = new Function<OrdersDTO, Orders>(){
 		@Override
-		public Orders apply(OrdersDTO ordersDTO) {
+		public Orders apply(OrdersDTO ordersDTO) 
+		{
+            System.out.println("#### ordersDTO==="+ordersDTO);
 			Orders orders = new Orders();
-			//orders.setOrderId(ordersDTO.getOrderId());
 			orders.setOrderStatus(ordersDTO.getOrderStatus());
 			orders.setOrderDate(ordersDTO.getOrderDate());
 			orders.setStoreId(ordersDTO.getStoreId());
-			orders.setOrderItemsList(ordersDTO.getOrderItems().stream().map(toNewOrderItemsDomain).collect(Collectors.toList()));
-					 
+			//Adding OrderItems
+			if(!ordersDTO.getOrderItems().isEmpty()) {
+				for(OrderItemsDTO orderItemsDTO : ordersDTO.getOrderItems()) {
+					OrderItems orderItems = toNewOrderItemsDomain.apply(orderItemsDTO);
+					orderItems.setOrders(orders);
+					orders.getOrderItemsList().add(orderItems);
+				}
+			}
+
 			return orders;
 		}
 	};
@@ -278,20 +258,14 @@ public class CustomerService {
 	
 	Function<OrderItemsDTO, OrderItems> toNewOrderItemsDomain = new Function<OrderItemsDTO, OrderItems>(){
 		@Override
-		public OrderItems apply(OrderItemsDTO orderItemsDTO) {
+		public OrderItems apply(OrderItemsDTO orderItemsDTO) 
+		{
 			OrderItems orderItems = new OrderItems();
-//			orderItems.setOrderItemsId(orderItemsDTO.getOrderItemsId());
-			try {
 			orderItems.setItem(orderItemsDTO.getItem());
 			orderItems.setQuantity(orderItemsDTO.getQuantity());
 			orderItems.setPrice(orderItemsDTO.getPrice());
 			orderItems.setOrder_Id(orderItemsDTO.getOrderId());
-			}catch(Exception e) {
-				log.error("New Order Items DTO not working", e);
-			}
 			
-			
-			//Returns the new Order Items List
 			return orderItems;
 		}
 	};
