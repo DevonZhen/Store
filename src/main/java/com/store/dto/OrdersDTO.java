@@ -24,5 +24,5 @@ public class OrdersDTO {
 	private Long storeId;
 //	private Long customers; 
 	//---------------------------------//
-	private List<OrderItemsDTO> orderItems;  //1 - Many Order Items
+	private List<OrderItemsDTO> orderItems = Lists.newArrayList();  //1 - Many Order Items
 }
