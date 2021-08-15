@@ -1,5 +1,7 @@
 package com.store.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -70,26 +72,10 @@ public class CustomerService {
 
 		customersDomain.accept(customersDTO, customers.get());
 		System.out.println("Hello World");
-//		return null;
 		return customersDTO;
-	}	
-
-			
-	
-	//Delete Customer + Orders
-//	public void deleteCustomer(Long id) {
-//		customerRepo.deleteById(id);
-////		ordersRepo.deleteByCustomerId(id);
-////		orderItemsRepo.deleteByOrderId(id);
-//	}
-	
-	
-
-	
+	}		
 	
 	//==================================================================================================================//
-	
-	
 	//Customers Table
 	private Function<Customers, CustomersDTO> toCustomersDTO = new Function<Customers, CustomersDTO>(){
 		public CustomersDTO apply(Customers customer) {
@@ -148,7 +134,7 @@ public class CustomerService {
 				orderItemsDTO.setItem(orderItems.getItem());
 				orderItemsDTO.setQuantity(orderItems.getQuantity());
 				orderItemsDTO.setPrice(orderItems.getPrice());
-				orderItemsDTO.setOrderId(orderItems.getOrder_Id());
+				orderItemsDTO.setOrderId(orderItems.getOrder_Id());  
 			}
 			return orderItemsDTO;
 		}
@@ -187,22 +173,61 @@ public class CustomerService {
 			customers.setStreet(customersDTO.getStreet());
 			customers.setZip(customersDTO.getZip());
 			
-			//Orders List Clear
-			ordersRepo.deleteInBatch(customers.getOrdersList());
-			customers.getOrdersList().clear();
 			
-			//Adding Orders
+			List<Long> orderIdlistDomain = new ArrayList<>();
+			if(!customers.getOrdersList().isEmpty()) {
+				for(Orders orders : customers.getOrdersList()) {
+					orderIdlistDomain.add(orders.getOrderId());
+				}
+				//System.out.println("orderIdlistDomain=="+orderIdlistDomain);
+			}
+			List<Long> orderIdlistDTO = new ArrayList<>();
 			if(!customersDTO.getOrders().isEmpty()) {
 				for(OrdersDTO ordersDTO : customersDTO.getOrders()) {
-					Orders orders = toNewOrdersDomain.apply(ordersDTO);
-					orders.setCustomers(customers);
-					customers.getOrdersList().add(orders);
+					orderIdlistDTO.add(ordersDTO.getOrderId());
 				}
+				//System.out.println("orderIdlistDTO=="+orderIdlistDTO);
 			}
+			
+			//Find the same orders for update
+			List<Long> sameOrderIdList = new ArrayList<Long>(orderIdlistDomain);
+			sameOrderIdList.retainAll(orderIdlistDTO);
+	        System.out.println("same order id list=="+sameOrderIdList);
+            //toOrdersDomain.accept(ordersDTO, orders);
+
+
+	        //Find the miss orders
+			List<Long> listRemovedOrders = new ArrayList<Long>(orderIdlistDomain);
+			listRemovedOrders.removeAll(orderIdlistDTO);
+	        System.out.println("removed order id list=="+listRemovedOrders);
+	        //ordersRepo.delete(order);
+	        
+
+	        //Find the new orders for insert
+	        List<OrdersDTO> newOrderIdList = new ArrayList<>();
+			if(!customersDTO.getOrders().isEmpty()) {
+				for(OrdersDTO ordersDTO : customersDTO.getOrders()) {
+					if (ordersDTO.getOrderId() == null)
+						newOrderIdList.add(ordersDTO);
+				}
+				System.out.println("new order list=="+newOrderIdList);
+			}
+			//Orders orders = toNewOrdersDomain.apply(ordersDTO);
+
 		}
 	};
 	
 	
+	BiConsumer<OrdersDTO, Orders> toOrdersDomain = new BiConsumer<OrdersDTO, Orders>() {
+		@Override
+		public void accept(OrdersDTO ordersDTO, Orders orders) {
+	   	    orders.setOrderStatus(ordersDTO.getOrderStatus());
+	   	    orders.setOrderDate(ordersDTO.getOrderDate());
+	   	    orders.setStoreId(ordersDTO.getStoreId());
+		}
+
+	};
+
 	//==================================================================================================================//
 	//Update Order + OrderItems?
 	
@@ -240,9 +265,11 @@ public class CustomerService {
 			orders.setOrderStatus(ordersDTO.getOrderStatus());
 			orders.setOrderDate(ordersDTO.getOrderDate());
 			orders.setStoreId(ordersDTO.getStoreId());
+			
 			//Adding OrderItems
 			if(!ordersDTO.getOrderItems().isEmpty()) {
 				for(OrderItemsDTO orderItemsDTO : ordersDTO.getOrderItems()) {
+					orderItemsDTO.setOrderId(orders.getOrderId());
 					OrderItems orderItems = toNewOrderItemsDomain.apply(orderItemsDTO);
 					orderItems.setOrders(orders);
 					orders.getOrderItemsList().add(orderItems);
@@ -264,7 +291,7 @@ public class CustomerService {
 			orderItems.setItem(orderItemsDTO.getItem());
 			orderItems.setQuantity(orderItemsDTO.getQuantity());
 			orderItems.setPrice(orderItemsDTO.getPrice());
-			orderItems.setOrder_Id(orderItemsDTO.getOrderId());
+			orderItems.setOrder_Id(orderItemsDTO.getOrderId());  
 			
 			return orderItems;
 		}
@@ -351,6 +378,7 @@ public class CustomerService {
 		return null;
 	}	
 
+}	
 	
 	
 	
@@ -376,6 +404,3 @@ public class CustomerService {
 	
 	
 	
-	
-	
-}
