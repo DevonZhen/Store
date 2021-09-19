@@ -52,26 +52,49 @@ public class Test {
 		     //System.out.println("order id=="+orders.getOrderId());
 			listDTO.add(orders.getOrderId());
 		}	
+		
 		//Find the same orders
 		List<Long> listSameOrders = new ArrayList<Long>(listDomain);
 		listSameOrders.retainAll(listDTO);
-        System.out.println("list of the same orders=="+listSameOrders);
+        //System.out.println("list of the same orders=="+listSameOrders);
         
         //Find the miss orders
 		List<Long> listRemovedOrders = new ArrayList<Long>(listDomain);
 		listRemovedOrders.removeAll(listDTO);
-        System.out.println("list of removed orders=="+listRemovedOrders);
+        //System.out.println("list of removed orders=="+listRemovedOrders);
         
         //Find the new orders
         List<Orders> listNewOrders = new ArrayList<>();
 		for (Orders orders:listNew) {
 		     //System.out.println("order id=="+orders.getOrderId());
 			if (orders.getOrderId()== null) {
-				System.out.println("order =="+orders);
+				//System.out.println("order =="+orders);
 			    listNewOrders.add(orders);
 			}
 		}	
         
+		
+		
+		//----------------
+		List<Orders> list_Ori = new ArrayList<>();
+		Orders order_11 = new Orders();
+		order_11.setOrderId(1L);
+		list_Ori.add(order_11);
+		Orders order_12 = new Orders();
+		order_12.setOrderId(2L);
+		list_Ori.add(order_12);
+
+		List<Orders> list_New = new ArrayList<>();
+		Orders order_21 = new Orders();
+		order_21.setOrderId(1L);
+		list_New.add(order_21);
+		//Orders order_22 = new Orders();
+		//order_22.setOrderId(2L);
+		//list_New.add(order_22);
+		
+		List<Orders> sameOrders = new ArrayList<Orders>(list_Ori);
+		sameOrders.retainAll(list_New);
+        //System.out.println("same orders=="+sameOrders);
 
 	}
 

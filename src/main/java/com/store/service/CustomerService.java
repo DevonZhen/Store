@@ -1,17 +1,14 @@
 package com.store.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.store.domain.Customers;
 import com.store.domain.OrderItems;
 import com.store.domain.Orders;
@@ -23,8 +20,8 @@ import com.store.dto.StoresDTO;
 import com.store.repository.CustomerRepository;
 import com.store.repository.OrderItemsRepository;
 import com.store.repository.OrdersRepository;
-
 import lombok.extern.log4j.Log4j2;
+
 
 @Log4j2
 @Service
@@ -171,36 +168,48 @@ public class CustomerService {
 			customers.setPhone(customersDTO.getPhone());
 			customers.setEmail(customersDTO.getEmail());
 			customers.setStreet(customersDTO.getStreet());
-			customers.setZip(customersDTO.getZip());
-			
+			customers.setZip(customersDTO.getZip());	
 			
 			List<Long> orderIdlistDomain = new ArrayList<>();
 			if(!customers.getOrdersList().isEmpty()) {
 				for(Orders orders : customers.getOrdersList()) {
 					orderIdlistDomain.add(orders.getOrderId());
 				}
-				//System.out.println("orderIdlistDomain=="+orderIdlistDomain);
 			}
 			List<Long> orderIdlistDTO = new ArrayList<>();
 			if(!customersDTO.getOrders().isEmpty()) {
 				for(OrdersDTO ordersDTO : customersDTO.getOrders()) {
 					orderIdlistDTO.add(ordersDTO.getOrderId());
 				}
-				//System.out.println("orderIdlistDTO=="+orderIdlistDTO);
 			}
 			
-			//Find the same orders for update
-			List<Long> sameOrderIdList = new ArrayList<Long>(orderIdlistDomain);
-			sameOrderIdList.retainAll(orderIdlistDTO);
-	        System.out.println("same order id list=="+sameOrderIdList);
-            //toOrdersDomain.accept(ordersDTO, orders);
+			//Find the remain orders for update
+			List<Long> remainOrderIdList = new ArrayList<Long>(orderIdlistDomain);
+			remainOrderIdList.retainAll(orderIdlistDTO);
+	        System.out.println("remain order id list=="+remainOrderIdList);
+	        for (Long orderId: remainOrderIdList) {
+	        	 Orders ordersTmp = null;
+	        	 OrdersDTO ordersDTOTmp = null;
+	        	 for(OrdersDTO ordersDTO : customersDTO.getOrders()) {
+	        	 	 if (ordersDTO.getOrderId() != null && ordersDTO.getOrderId().equals(orderId))
+	        			 ordersDTOTmp = ordersDTO;
+	        	 }
+	        	 for(Orders orders : customers.getOrdersList()) {
+	        	 	 if (orders.getOrderId().equals(orderId))
+	        			 ordersTmp = orders;
+	        	 }
+	        	 toOrdersDomain.accept(ordersDTOTmp, ordersTmp);
+	        }
+            //     
 
 
-	        //Find the miss orders
+	        //Find the removed orders for delete
 			List<Long> listRemovedOrders = new ArrayList<Long>(orderIdlistDomain);
 			listRemovedOrders.removeAll(orderIdlistDTO);
 	        System.out.println("removed order id list=="+listRemovedOrders);
-	        //ordersRepo.delete(order);
+	        for (Long orderId: listRemovedOrders) {
+	        	 ordersRepo.deleteByOrderId(orderId);
+	        }
 	        
 
 	        //Find the new orders for insert
@@ -212,8 +221,12 @@ public class CustomerService {
 				}
 				System.out.println("new order list=="+newOrderIdList);
 			}
-			//Orders orders = toNewOrdersDomain.apply(ordersDTO);
-
+			for (OrdersDTO ordersDTO: newOrderIdList) {
+			     Orders orders = toNewOrdersDomain.apply(ordersDTO);
+			     orders.setCustomers(customers);
+				 customers.getOrdersList().add(orders);
+		    }
+			 
 		}
 	};
 	
@@ -224,9 +237,22 @@ public class CustomerService {
 	   	    orders.setOrderStatus(ordersDTO.getOrderStatus());
 	   	    orders.setOrderDate(ordersDTO.getOrderDate());
 	   	    orders.setStoreId(ordersDTO.getStoreId());
+	   	    
+			orderItemsRepo.deleteInBatch(orders.getOrderItemsList());
+			orders.getOrderItemsList().clear();
+			
+		    if (!ordersDTO.getOrderItems().isEmpty()) {
+				for (OrderItemsDTO orderItemsDTO : ordersDTO.getOrderItems()) {
+					 OrderItems orderItems = toNewOrderItemsDomain.apply(orderItemsDTO);  
+					 orderItems.setOrders(orders);
+				  	 orders.getOrderItemsList().add(orderItems);             
+				}
+		    }
+
 		}
 
 	};
+	
 
 	//==================================================================================================================//
 	//Update Order + OrderItems?
@@ -260,16 +286,14 @@ public class CustomerService {
 		@Override
 		public Orders apply(OrdersDTO ordersDTO) 
 		{
-            System.out.println("#### ordersDTO==="+ordersDTO);
 			Orders orders = new Orders();
 			orders.setOrderStatus(ordersDTO.getOrderStatus());
 			orders.setOrderDate(ordersDTO.getOrderDate());
 			orders.setStoreId(ordersDTO.getStoreId());
-			
+		
 			//Adding OrderItems
 			if(!ordersDTO.getOrderItems().isEmpty()) {
 				for(OrderItemsDTO orderItemsDTO : ordersDTO.getOrderItems()) {
-					orderItemsDTO.setOrderId(orders.getOrderId());
 					OrderItems orderItems = toNewOrderItemsDomain.apply(orderItemsDTO);
 					orderItems.setOrders(orders);
 					orders.getOrderItemsList().add(orderItems);

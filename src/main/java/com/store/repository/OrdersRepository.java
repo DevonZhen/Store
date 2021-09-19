@@ -3,6 +3,7 @@ package com.store.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,10 @@ public interface OrdersRepository extends BaseRepository<Orders, Long>{
 	
 	@Query("SELECT o FROM Orders o WHERE o.orderId = ?1")
 	public Optional<Orders> findByOrderId(Long id);
+	
+	@Modifying
+	@Query("DELETE FROM Orders o WHERE o.orderId = ?1")
+	void deleteByOrderId(Long Id);
 	
 	//Delete Query, remember to change SELECT
 //	@Query("SELECT o FROM FROM Orders o WHERE o.customerId = ?1")
