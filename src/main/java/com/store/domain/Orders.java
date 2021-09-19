@@ -56,7 +56,7 @@ public class Orders implements Serializable{
 	private Customers customers;
 	
 	//Orders(PK: Order_Id) --> Order Items(FK: Order_Id)
-	@OneToMany( mappedBy="orders",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="orders",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<OrderItems> orderItemsList = Lists.newArrayList();
 
