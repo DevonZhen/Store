@@ -18,6 +18,7 @@ import com.store.domain.Customers;
 import com.store.dto.CustomersDTO;
 import com.store.dto.OrderItemsDTO;
 import com.store.dto.OrdersDTO;
+import com.store.repository.CustomerQueryRepository;
 import com.store.repository.CustomerRepository;
 import com.store.service.CustomerService;
 import com.store.service.OrdersService;
@@ -26,7 +27,7 @@ import com.store.service.OrdersService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { Application.class, JNDIConfiguration.class })
-@ContextConfiguration(classes = {CustomerController.class, CustomerService.class, OrdersService.class, }) 
+@ContextConfiguration(classes = {CustomerController.class, CustomerService.class, OrdersService.class, CustomerQueryRepository.class}) 
 
      
 public class SpringBootApplicationJunitTest {
@@ -37,8 +38,10 @@ public class SpringBootApplicationJunitTest {
 	@Autowired
 	CustomerController customerController; 
 	
+	@Autowired
+	CustomerQueryRepository customerQueryRepository;
 	
-	@Test
+	//@Test
 	public void testCtrlFindById() throws ParseException 
 	{				
 		try {
@@ -173,5 +176,25 @@ public class SpringBootApplicationJunitTest {
 		}
 	}	
 	
+	@Test
+	public void getCustomerDTOList() 
+	{				
+		try {
+
+			List<CustomersDTO> customerDTOList = customerQueryRepository.getCustomersList();		  
+			Assert.assertTrue(customerDTOList.size() > 0);
+
+			System.out.println("=====================================================");
+	        System.out.println("### getCustomerDTOList() Successful: Return "+customerDTOList.size()+") ###");
+		    System.out.println("=====================================================");
+			
+		}catch (AssertionError e) {
+			if (e.getMessage() == null) {
+			    System.out.println("==================================================");
+		        System.out.println("### GetCustomerDTOList() failure: Return null) ###");
+			    System.out.println("==================================================");
+			}
+		}
+	}
 
 }

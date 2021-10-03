@@ -1,81 +1,8 @@
-create table "Customers"
-(
-    "Id"          integer not null,
-    "Customer_Id" integer not null
-        constraint customers_pk
-            primary key,
-    "First_Name"  varchar(30),
-    "Last_Name"   varchar(30),
-    "Phone"       varchar(10),
-    "Email"       varchar(50),
-    "Street"      varchar(100),
-    "Zip"         integer
-);
-
-======================================================
-
-create table "Orders"
-(
-    "Id"           integer not null,
-    "Order_Id"     integer not null
-        constraint orders_pk
-            primary key,
-    "Order_Status" varchar(30),
-    "Order_Date"   date,
-    "Store_Id"     integer
-        constraint "Store_Id"
-            references "Stores",
-    "Customer_Id"  integer
-        constraint "Customer_Id"
-            references "Customers"
-);
-
-alter table "Orders"
-    owner to postgres;
-
-create unique index orders_order_id_uindex
-    on "Orders" ("Order_Id");
-
-
-======================================================
-
-create table "Order_Items"
-(
-    "Id"             integer not null,
-    "Order_Items_Id" integer not null
-        constraint "Order_Items_pkey"
-            primary key,
-    "Item"           varchar(30),
-    "Quantity"       integer,
-    "Price"          numeric,
-    "Order_Id"       integer
-        constraint "Order_Items_Id"
-            references "Orders"
-);
-
-alter table "Order_Items"
-    owner to postgres;
-
-
-======================================================
-
-
-create table "Stores"
-(
-    "Id"         integer not null,
-    "Store_Id"   integer not null
-        constraint stores_pk
-            primary key,
-    "Store_Name" varchar(30),
-    "Phone"      varchar(10),
-    "Email"      varchar(100),
-    "Street"     varchar(100),
-    "Zip"        integer
-);
-
-alter table "Stores"
-    owner to postgres;
-
-create unique index stores_store_id_uindex
-    on "Stores" ("Store_Id");
-
+SELECT c."Customer_Id", c."First_Name", c."Last_Name", c."Phone", c."Email", c."Street", c."Zip", 
+       o."Order_Id", o."Order_Status", o."Order_Date", o."Store_Id", 
+	   i."Order_Items_Id", i."Item", i."Quantity", i."Price" 
+  FROM public."Customers" c, public."Orders" o
+       LEFT OUTER JOIN public."Order_Items" i
+            ON o."Order_Id" = i."Order_Id" 
+ WHERE c."Customer_Id" = +o."Customer_Id" 
+ ORDER BY c."Customer_Id", o."Order_Id";
