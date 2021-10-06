@@ -6,3 +6,10 @@ SELECT c."Customer_Id", c."First_Name", c."Last_Name", c."Phone", c."Email", c."
             ON o."Order_Id" = i."Order_Id" 
  WHERE c."Customer_Id" = +o."Customer_Id" 
  ORDER BY c."Customer_Id", o."Order_Id";
+ 
+ 
+ {"delOrderIds":"142",
+  "delItemIds":"",
+  "customerDTO":{"customerId":1,"firstName":"Lauren","lastName":"Taka","phone":"6091329998","email":"ltees32@gmail.com","street":"26 Baoler Road","zip":15946,
+                     "orders":[{"orderId":126,"orderStatus":"Waiting","orderDate":"2020-09-01","storeId":2,  "customerId":null,"orderItems":[{"orderItemsId":79,"item":"Monitor","quantity":4,  "price":614, "orderId":null},{"orderItemsId":78,"item":"Computer","quantity":3,"price":1200,"orderId":null}]},
+                               {"orderId":" ","orderStatus":"Holding","orderDate":"2020-11-11","storeId":"1","customerId":"  ","orderItems":[{"orderItemsId":"","item":"CUP",    "quantity":"1","price":"99","orderId":""}]}]}}

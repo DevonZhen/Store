@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.store.dto.CustomersDTO;
+import com.store.dto.CustomersFormData;
 import com.store.service.CustomerQueryService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -32,5 +35,21 @@ public class CustomerQueryController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	@PostMapping(value = "/updateCustomers", produces = "application/json")
+	public ResponseEntity<CustomersDTO> updateCustomers(@RequestBody CustomersFormData customersFormData) 
+	{
+		try {
+
+			 CustomersDTO customersDTO  = customerQueryService.updateCustomers(customersFormData);
+
+			 return new ResponseEntity<>(customersDTO, HttpStatus.OK);
+			
+		} catch (Exception e) {
+			
+			 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); 
+		}
+	}
+
 
 }
